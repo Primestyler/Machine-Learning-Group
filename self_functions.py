@@ -7,3 +7,8 @@ import missingno as msno
 def histplot(x):
     sns.histplot(x=x)
     plt.show()
+    
+def corrplot(df):
+    plt.figure(figsize=(20, 20))
+    sns.heatmap(df.corr(), annot=True, cmap=plt.cm.Reds)
+    plt.show()
