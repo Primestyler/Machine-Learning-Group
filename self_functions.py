@@ -12,3 +12,9 @@ def corrplot(df):
     plt.figure(figsize=(20, 20))
     sns.heatmap(df.corr(), annot=True, cmap=plt.cm.Reds)
     plt.show()
+    
+def sta_sca(df, cols):
+    from sklearn.preprocessing import StandardScaler
+    sc = StandardScaler()
+    for i in cols:
+        df[i] = sc.fit_transform(df[[i]])
