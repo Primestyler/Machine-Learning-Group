@@ -10,7 +10,7 @@ def histplot(x):
     
 def corrplot(df):
     plt.figure(figsize=(20, 20))
-    sns.heatmap(df.corr(), annot=True, cmap=plt.cm.Reds)
+    sns.heatmap(df.corr(), annot=True)
     plt.show()
     
 def sta_sca(sc, df, cols):
