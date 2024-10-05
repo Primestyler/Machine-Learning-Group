@@ -34,3 +34,10 @@
 | 5 | DT | {'criterion': 'log_loss', 'max_depth': 5, 'max_features': 'log2'} | 0.7979568323422035 | 0.06534 | 
 | 5 | RF | {'bootstrap': True, 'criterion': 'entropy', 'max_depth': 6, 'max_features': 'log2', 'n_estimators': 50} | 0.8126182140249576 | 0.05243 |
 | 5 | GB | {'criterion': 'squared_error', 'loss': 'log_loss', 'max_depth': 3, 'max_features': 'sqrt', 'n_estimators': 50} | 0.8122200713700967 | 0.05313 |
+|  |  |  |  |  |
+| 6 | KNN | {'algorithm': 'ball_tree', 'n_neighbors': 1, 'weights': 'uniform'} | 0.034069993118971506 | 0.03571 |
+| 6 | LR | {'C': 0.001, 'penalty': 'l1', 'solver': 'liblinear'} | 0.0 | 0.00000 |
+| 6 | SVC | {'C': 0.001, 'degree': 2, 'gamma': 'auto', 'kernel': 'linear'} | 0.0 | 0.00000 |
+| 6 | DT | {'criterion': 'gini', 'max_depth': 9, 'max_features': 'log2'} | 0.028287927203159386 | 0.00000 | 
+| 6 | RF | {'bootstrap': True, 'criterion': 'entropy', 'max_depth': 10, 'max_features': 'sqrt', 'n_estimators': 50} | 0.0041666666666666675 | 0.00000 |
+| 6 | GB | {'criterion': 'friedman_mse', 'loss': 'log_loss', 'max_depth': 9, 'max_features': 'sqrt', 'n_estimators': 50} | 0.03736243353489092 | 0.07594 |
