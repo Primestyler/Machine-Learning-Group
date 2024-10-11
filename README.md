@@ -58,3 +58,13 @@
 | 8 | XGB | {'gamma': 3, 'learning_rate': 0.01, 'max_depth': 7, 'n_estimators': 50, 'objective': 'binary:logistic'} | 0.8040266428061328 | 0.05494 | Random Undersampling |
 | 8 | VC_Hard | | 0.8014472245375431 | 0.05263 | Random Undersampling |
 | 8 | VC_Soft | | 0.8008455750780138 | 0.05365 | Random Undersampling |
+|  |  |  |  |  |  |
+| 9 | KNN | {'algorithm': 'ball_tree', 'n_neighbors': 1, 'weights': 'uniform'} | 0.3693721992887028 | 0.11981 | Instant Hardness Threshold |
+| 9 | LR | {'C': 0.001, 'penalty': None, 'solver': 'newton-cholesky'} | 0.12572063234345973 | 0.00000 | Instant Hardness Threshold |
+| 9 | SVC | {'C': 0.1, 'degree': 4, 'gamma': 'auto', 'kernel': 'poly'} | 0.1071333984972799 | 0.02898 | Instant Hardness Threshold |
+| 9 | DT | {'criterion': 'entropy', 'max_depth': 10, 'max_features': 'log2'} | 0.3105107174229027 | 0.12403 |  Instant Hardness Threshold |
+| 9 | RF | {'bootstrap': True, 'criterion': 'gini', 'max_depth': 10, 'max_features': 'log2', 'n_estimators': 50} | 0.3027609336805059 | 0.11009 | Instant Hardness Threshold |
+| 9 | GB | {'criterion': 'friedman_mse', 'loss': 'log_loss', 'max_depth': 10, 'max_features': 'sqrt', 'n_estimators': 50} | 0.3607623794299673 | 0.11976 | Instant Hardness Threshold |
+| 9 | XGB | {'gamma': 0, 'learning_rate': 1.0, 'max_depth': 9, 'n_estimators': 50, 'objective': 'binary:logistic'} | 0.36683873054124766 | 0.10370 | Instant Hardness Threshold |
+| 9 | VC_Hard | | 0.2683554563836443 | 0.05940 | Instant Hardness Threshold |
+| 9 | VC_Soft | | 0.2912360025173698 | 0.08080 | Instant Hardness Threshold |
