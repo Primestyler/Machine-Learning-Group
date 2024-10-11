@@ -48,3 +48,13 @@
 | 7 | DT | {'criterion': 'gini', 'max_depth': 10, 'max_features': 'log2'} | 0.8415657351195541 | 0.04388 |  No sampling |
 | 7 | RF | {'bootstrap': True, 'criterion': 'gini', 'max_depth': 10, 'max_features': 'log2', 'n_estimators': 50} | 0.8717849188670568 | 0.04421 | No sampling |
 | 7 | GB | {'criterion': 'squared_error', 'loss': 'log_loss', 'max_depth': 10, 'max_features': 'log2', 'n_estimators': 50} | 0.9164921490500427 | 0.03919 | No sampling |
+|  |  |  |  |  |  |
+| 8 | KNN | {'algorithm': 'ball_tree', 'n_neighbors': 5, 'weights': 'uniform'} | 0.7812271258946091 | 0.05231 | Random Undersampling |
+| 8 | LR | {'C': 1.0, 'penalty': 'l1', 'solver': 'liblinear'} | 0.7991429129160128 | 0.05364 | Random Undersampling |
+| 8 | SVC | {'C': 1.0, 'degree': 2, 'gamma': 'auto', 'kernel': 'rbf'} | 0.7995850249326868 | 0.05359 | Random Undersampling |
+| 8 | DT | {'criterion': 'gini', 'max_depth': 6, 'max_features': 'log2'} | 0.7755218128184336 | 0.04917 |  Random Undersampling |
+| 8 | RF | {'bootstrap': True, 'criterion': 'log_loss', 'max_depth': 4, 'max_features': 'log2', 'n_estimators': 50} | 0.8078962733402457 | 0.05100 | Random Undersampling |
+| 8 | GB | {'criterion': 'friedman_mse', 'loss': 'log_loss', 'max_depth': 4, 'max_features': 'sqrt', 'n_estimators': 50} | 0.7986902871317192 | 0.05503 | Random Undersampling |
+| 8 | XGB | {'gamma': 3, 'learning_rate': 0.01, 'max_depth': 7, 'n_estimators': 50, 'objective': 'binary:logistic'} | 0.8040266428061328 | 0.05494 | Random Undersampling |
+| 8 | VC_Hard | | 0.8014472245375431 | 0.05263 | Random Undersampling |
+| 8 | VC_Soft | | 0.8008455750780138 | 0.05365 | Random Undersampling |
