@@ -78,3 +78,13 @@
 | 10 | XGB | {'gamma': 0, 'learning_rate': 1.0, 'max_depth': 5, 'n_estimators': 100} | 0.34653065889912027 | 0.11290 | Instant Hardness Threshold |
 | 10 | VC_Hard | | 0.3104911324566141 | 0.08080 | Instant Hardness Threshold |
 | 10 | VC_Soft | | 0.38978325786191964 | 0.16176 | Instant Hardness Threshold |
+|  |  |  |  |  |  |
+| 11 | KNN | {'n_neighbors': 1, 'p': 3} | 0.36631762286820974 | 0.11483 | Instant Hardness Threshold |
+| 11 | LR | {'C': 1.0, 'max_iter': 50} | 0.12355677767807416 | 0.00000 | Instant Hardness Threshold |
+| 11 | SVC | {'C': 0.1, 'gamma': 3, 'kernel': 'rbf'} | 0.27489290774783126 | 0.12371 | Instant Hardness Threshold |
+| 11 | DT | {'max_depth': 12, 'min_samples_leaf': 3, 'min_samples_split': 9} | 0.3093676376596971 | 0.09756 |  Instant Hardness Threshold |
+| 11 | RF | {'max_depth': 13, 'min_samples_leaf': 3, 'min_samples_split': 4} | 0.25054719494697303 | 0.09090 | Instant Hardness Threshold |
+| 11 | GB | {'max_depth': 13, 'min_samples_leaf': 5, 'min_samples_split': 5} | 0.40495272867535775 | 0.15384 | Instant Hardness Threshold |
+| 11 | XGB | {'gamma': 0, 'learning_rate': 1.0, 'max_depth': 4} | 0.3590310773587727 | 0.10526 | Instant Hardness Threshold |
+| 11 | VC_Hard | | 0.2924801849192789 | 0.08888 | Instant Hardness Threshold |
+| 11 | VC_Soft | | 0.3894622441200358 | 0.10606 | Instant Hardness Threshold |
