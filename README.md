@@ -68,3 +68,13 @@
 | 9 | XGB | {'gamma': 0, 'learning_rate': 1.0, 'max_depth': 9, 'n_estimators': 50, 'objective': 'binary:logistic'} | 0.36683873054124766 | 0.10370 | Instant Hardness Threshold |
 | 9 | VC_Hard | | 0.2683554563836443 | 0.05940 | Instant Hardness Threshold |
 | 9 | VC_Soft | | 0.2912360025173698 | 0.08080 | Instant Hardness Threshold |
+|  |  |  |  |  |  |
+| 10 | KNN | {'n_neighbors': 1, 'p': 2} | 0.3933719124261561 | 0.12871 | Instant Hardness Threshold |
+| 10 | LR | {'C': 1.0, 'max_iter': 100} | 0.12967892627247585 | 0.00000 | Instant Hardness Threshold |
+| 10 | SVC | {'C': 0.1, 'gamma': 2, 'kernel': 'rbf', 'max_iter': 400} | 0.30000396801742246 | 0.04347 | Instant Hardness Threshold |
+| 10 | DT | {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 4, 'splitter': 'best'} | 0.3022319015651108 | 0.07352 |  Instant Hardness Threshold |
+| 10 | RF | {'criterion': 'log_loss', 'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 2, 'n_estimators': 100} | 0.2971243054613969 | 0.12631 | Instant Hardness Threshold |
+| 10 | GB | {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 6, 'n_estimators': 100} | 0.3941928526035431 | 0.16438 | Instant Hardness Threshold |
+| 10 | XGB | {'gamma': 0, 'learning_rate': 1.0, 'max_depth': 5, 'n_estimators': 100} | 0.34653065889912027 | 0.11290 | Instant Hardness Threshold |
+| 10 | VC_Hard | | 0.3104911324566141 | 0.08080 | Instant Hardness Threshold |
+| 10 | VC_Soft | | 0.38978325786191964 | 0.16176 | Instant Hardness Threshold |
