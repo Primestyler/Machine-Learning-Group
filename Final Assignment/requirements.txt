@@ -1,5 +1,8 @@
-matplotlib
-numpy
-pandas
-seaborn
 librosa
+pandas
+numpy
+matplotlib
+seaborn
+scikit-learn
+librosa
+listdir
