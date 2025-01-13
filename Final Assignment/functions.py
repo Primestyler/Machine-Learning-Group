@@ -154,7 +154,7 @@ class KMeansClustering:
     
     def create_submission(self):
         submission = self.unlabeled_df[['filename', 'genre']]
-        submission.to_csv(f'submission_{datetime.datetime.now().strftime("%H:%M:%S")}.csv', index=False)
+        submission.to_csv(f'submission_{datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")}.csv', index=False)
     
     def _plot_elbow(self, k_range, inertia):
         plt.figure(figsize=(10, 5))
