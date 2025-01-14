@@ -2,6 +2,7 @@ import librosa
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
 from pathlib import Path
 import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -37,6 +38,9 @@ class DataLoader:
 
             spectral_bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr)
             spectral_bandwidth_mean = np.mean(spectral_bandwidth)
+            
+            spectral_contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
+            spectral_contrast_mean = np.mean(spectral_contrast)
 
             zcr = librosa.feature.zero_crossing_rate(y)
             zcr_mean = np.mean(zcr)
@@ -67,6 +71,7 @@ class DataLoader:
             features = {
                 'spectral_centroid': spectral_centroid_mean,
                 'spectral_bandwidth': spectral_bandwidth_mean,
+                'spectral_contrast': spectral_contrast_mean,
                 'zero_crossing_rate': zcr_mean,
                 'rms': rms_mean,
                 'spectral_rolloff': rolloff_mean,
@@ -154,7 +159,7 @@ class KMeansClustering:
     
     def create_submission(self):
         submission = self.unlabeled_df[['filename', 'genre']]
-        submission.to_csv(f'submission_{datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")}.csv', index=False)
+        submission.to_csv(f'Datasets/submission_{datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")}.csv', index=False)
     
     def _plot_elbow(self, k_range, inertia):
         plt.figure(figsize=(10, 5))
@@ -183,8 +188,11 @@ class PostClusteringVisualizations:
             ax = axes[i]
             genre_df = self.labeled_df[self.labeled_df['genre'] == genre]
             
-            sns.scatterplot(data=genre_df, x=col1, y=col2, color='red', ax=ax)
+            sns.scatterplot(data=genre_df, x=col1, y=col2, color='red', ax=ax, label=f'Genre: {genre}')
             sns.scatterplot(data=self.clustered_df, x=col1, y=col2, hue='cluster', palette='viridis', marker='o', ax=ax)
+            
+            red_patch = mpatches.Patch(color='red', label=f'Genre: {genre}')
+            handles, lables = ax.get_legend_handles_labels()
             
             ax.set_title(genre)
             
@@ -195,4 +203,29 @@ class PostClusteringVisualizations:
         plt.tight_layout(rect=[0, 0, 1, 0.99])
         plt.show()
         
+class PCAReduction:
+    def __init__(self, df):
+        self.df = df
         
+    def find_n(self):
+        pca = PCA()
+        pca.fit(self.df)
+        
+        self.explained_variance = pca.explained_variance_ratio_
+        self.features = range(pca.n_components_)
+        
+        self._plot_variance()
+        
+    def reduction(self, n):
+        pca = PCA(n_components=n)
+        self.df_reduced = pca.fit_transform(self.df)
+        
+        return self.df_reduced
+    
+    def _plot_variance(self):
+        plt.figure(figsize=(10,6))
+        plt.bar(self.features, self.explained_variance)
+        plt.xlabel('PCA components')
+        plt.ylabel('Variance')
+        plt.xticks(self.features)
+        plt.show()
