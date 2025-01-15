@@ -5,4 +5,11 @@
 | 2 | KMeans | 3 | Spectral Contrast | | 0.39622 |
 | 2 | KMeans PCA (2 components) | 3 | Spectral Contrast | | 0.39622 |
 | 3 | KMeans | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.98113 |
+| 3 | KMeans PCA (1 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.56603 |
 | 3 | KMeans PCA (2 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.43396 |
+| 3 | KMeans PCA (3 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.43396 |
+| 3 | KMeans PCA (4 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.66037 |
+| 3 | KMeans PCA (5 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.64150 |
+| 3 | KMeans PCA (6 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.35849 |
+| 3 | KMeans PCA (7 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.35849 |
+| 3 | KMeans PCA (8 components) | 3 | Multiple types of means for mfcc, chroma, contrast, and tonnetz | | 0.43396 |
