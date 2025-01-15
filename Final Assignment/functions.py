@@ -31,57 +31,65 @@ class DataLoader:
         
         try:
             y, sr = librosa.load(file_path, sr=sr)
-
+        
+            # 1. Basic spectral features
             spectral_centroid = librosa.feature.spectral_centroid(y=y, sr=sr)
-            spectral_centroid_mean = np.mean(spectral_centroid)
-
             spectral_bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr)
-            spectral_bandwidth_mean = np.mean(spectral_bandwidth)
-
             zcr = librosa.feature.zero_crossing_rate(y)
-            zcr_mean = np.mean(zcr)
-
             rms = librosa.feature.rms(y=y)
-            rms_mean = np.mean(rms)
-
             rolloff = librosa.feature.spectral_rolloff(y=y, sr=sr, roll_percent=0.85)
-            rolloff_mean = np.mean(rolloff)
-
+        
+            # 2. MFCCs
             mfcc = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
-            mfcc_means = [np.mean(coeff) for coeff in mfcc]
-            
+            mfcc_delta = librosa.feature.delta(mfcc)
+            mfcc_delta2 = librosa.feature.delta(mfcc, order=2)
+        
+            # 3. Chroma
             chroma = librosa.feature.chroma_stft(y=y, sr=sr)
-            chroma_means = [np.mean(chroma_coeff) for chroma_coeff in chroma]
-
+        
+            # 4. Spectral contrast
+            contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
+        
+            # 5. Tonnetz
+            tonnetz = librosa.feature.tonnetz(y=y, sr=sr)
+        
+            # 6. Spectral flatness
+            flatness = librosa.feature.spectral_flatness(y=y)
+        
+            # 7. Tempo
             tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
 
-            contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
-            contrast_means = [np.mean(band) for band in contrast]
+            features = {}
 
-            tonnetz = librosa.feature.tonnetz(y=y, sr=sr)
-            tonnetz_means = [np.mean(axis) for axis in tonnetz]
+            # Compute means for the basic spectral features
+            features['spectral_centroid'] = np.mean(spectral_centroid)
+            features['spectral_bandwidth'] = np.mean(spectral_bandwidth)
+            features['zcr'] = np.mean(zcr)
+            features['rms'] = np.mean(rms)
+            features['rolloff'] = np.mean(rolloff)
+    
+            # MFCC, delta, and delta2 features (only mean values)
+            for i in range(13):
+                features[f'mfcc_mean_{i+1}'] = np.mean(mfcc[i, :])
+                features[f'mfcc_delta_mean_{i+1}'] = np.mean(mfcc_delta[i, :])
+                features[f'mfcc_delta2_mean_{i+1}'] = np.mean(mfcc_delta2[i, :])
 
-            flatness = librosa.feature.spectral_flatness(y=y)
-            flatness_mean = np.mean(flatness)
+            # Chroma features
+            for i in range(chroma.shape[0]):
+                features[f'chroma_mean_{i+1}'] = np.mean(chroma[i, :])
 
-            features = {
-                'spectral_centroid': spectral_centroid_mean,
-                'spectral_bandwidth': spectral_bandwidth_mean,
-                'zero_crossing_rate': zcr_mean,
-                'rms': rms_mean,
-                'spectral_rolloff': rolloff_mean,
-                'mfcc_mean_1': mfcc_means[0],
-                'mfcc_mean_2': mfcc_means[1],
-                'mfcc_mean_3': mfcc_means[2],
-                'chroma_mean_1': chroma_means[0],
-                'chroma_mean_2': chroma_means[1],
-                'tempo': tempo[0],
-                'contrast_mean_1': contrast_means[0],
-                'contrast_mean_2': contrast_means[1],
-                'tonnetz_mean_1': tonnetz_means[0],
-                'tonnetz_mean_2': tonnetz_means[1],
-                'flatness_mean': flatness_mean
-            }
+            # Spectral contrast features
+            for i in range(contrast.shape[0]):
+                features[f'contrast_mean_{i+1}'] = np.mean(contrast[i, :])
+
+            # Tonnetz features
+            for i in range(tonnetz.shape[0]):
+                features[f'tonnetz_mean_{i+1}'] = np.mean(tonnetz[i, :])
+
+            # Spectral flatness (mean value)
+            features['flatness'] = np.mean(flatness)
+
+            features['tempo'] = tempo
 
             return features
 
