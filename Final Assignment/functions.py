@@ -159,7 +159,21 @@ class DataLoader:
                     print(f"Error loading {file_name}: {e}")
 
         return pd.DataFrame(feature_array)
-    
+
+def visualize_feature(feature, df):
+    avg_value = df.groupby('genre')[feature].mean().reset_index()
+
+    plt.figure(figsize=(5, 5))
+    plt.scatter(avg_value['genre'], avg_value[feature], color='red', s=50)
+    for idx, row in avg_value.iterrows():
+        plt.text(row['genre'], row[feature] + 0.02 * row[feature], f"{row['genre']}", ha='center', fontsize=9)
+
+    plt.xlabel('Genre')
+    plt.xticks(ticks=[])
+    plt.ylabel(f'Avg {feature}')
+    plt.yticks(ticks=[])
+    plt.title(f'Avg {feature} by Genre')
+    plt.show()
 
 class KMeansClustering:
     def __init__(self, unlabeled_data, unlabled_df):
@@ -237,19 +251,25 @@ class PCAReduction:
         self.df = df
         
     def find_n(self):
-        pca = PCA()
-        pca.fit(self.df)
+        self.pca = PCA()
+        self.pca.fit(self.df)
         
-        self.explained_variance = pca.explained_variance_ratio_
-        self.features = range(pca.n_components_)
+        self.explained_variance = self.pca.explained_variance_ratio_
+        self.features = range(self.pca.n_components_)
         
         self._plot_variance()
         
     def reduction(self, n):
-        pca = PCA(n_components=n)
-        self.df_reduced = pca.fit_transform(self.df)
+        self.pca = PCA(n_components=n)
+        self.df_reduced = self.pca.fit_transform(self.df)
         
         return self.df_reduced
+    
+    def reduce_labeled(self, labeled_df):
+        self.labeled_df = labeled_df
+        self.df_reduced_labeled = self.pca.transform(self.labeled_df)
+        
+        return self.df_reduced_labeled
     
     def _plot_variance(self):
         plt.figure(figsize=(10,6))
@@ -258,3 +278,14 @@ class PCAReduction:
         plt.ylabel('Variance')
         plt.xticks(self.features)
         plt.show()
+        
+class NMFReduction:
+    def __init__(self, data):
+        self.data = data
+        self.nmf = NMF(n_components=3)
+        
+    def reduction(self):
+        return pd.DataFrame(normalize(pd.DataFrame(self.nmf.fit_transform(self.data))))
+    
+    def reduce_labeled(self, labeled_data):
+        return pd.DataFrame(normalize(pd.DataFrame(self.nmf.transform(labeled_data))))
