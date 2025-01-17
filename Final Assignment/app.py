@@ -157,6 +157,9 @@ if uploaded_file:
     norm_features = pd.DataFrame(normalize(nmf_features, axis=0))
     
     recommendations = recommend_top_5(df, norm_features, target_index=len(df) - 1)
+    st.write('**Uploaded Audio File**')
+    st.audio('temp.wav')
+    
     st.write('Top 5 similar audio files:')
     for _, row in recommendations.iterrows():
         st.write(f'Audio File: {os.path.basename(row["filename"])}')
