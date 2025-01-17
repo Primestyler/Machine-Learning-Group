@@ -3,14 +3,13 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from pathlib import Path
 import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA, NMF
-from scipy.spatial.distance import cdist
 import datetime
+from sklearn.preprocessing import normalize
 
 class DataLoader:
     @staticmethod
