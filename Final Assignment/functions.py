@@ -2,14 +2,14 @@ import librosa
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from pathlib import Path
+import matplotlib.patches as mpatches
 import os
 from concurrent.futures import ProcessPoolExecutor, as_completed
 import seaborn as sns
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA, NMF
-from scipy.spatial.distance import cdist
 import datetime
+from sklearn.preprocessing import normalize
 
 class DataLoader:
     @staticmethod
@@ -37,6 +37,9 @@ class DataLoader:
 
             spectral_bandwidth = librosa.feature.spectral_bandwidth(y=y, sr=sr)
             spectral_bandwidth_mean = np.mean(spectral_bandwidth)
+            
+            spectral_contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
+            spectral_contrast_mean = np.mean(spectral_contrast)
 
             zcr = librosa.feature.zero_crossing_rate(y)
             zcr_mean = np.mean(zcr)
@@ -67,19 +70,49 @@ class DataLoader:
             features = {
                 'spectral_centroid': spectral_centroid_mean,
                 'spectral_bandwidth': spectral_bandwidth_mean,
+                'spectral_contrast': spectral_contrast_mean,
                 'zero_crossing_rate': zcr_mean,
                 'rms': rms_mean,
                 'spectral_rolloff': rolloff_mean,
                 'mfcc_mean_1': mfcc_means[0],
                 'mfcc_mean_2': mfcc_means[1],
                 'mfcc_mean_3': mfcc_means[2],
+                'mfcc_mean_4': mfcc_means[3],
+                'mfcc_mean_5': mfcc_means[4],
+                'mfcc_mean_6': mfcc_means[5],
+                'mfcc_mean_7': mfcc_means[6],
+                'mfcc_mean_8': mfcc_means[7],
+                'mfcc_mean_9': mfcc_means[8],
+                'mfcc_mean_10': mfcc_means[9],
+                'mfcc_mean_11': mfcc_means[10],
+                'mfcc_mean_12': mfcc_means[11],
+                'mfcc_mean_13': mfcc_means[12],
                 'chroma_mean_1': chroma_means[0],
                 'chroma_mean_2': chroma_means[1],
+                'chroma_mean_3': chroma_means[2],
+                'chroma_mean_4': chroma_means[3],
+                'chroma_mean_5': chroma_means[4],
+                'chroma_mean_6': chroma_means[5],
+                'chroma_mean_7': chroma_means[6],
+                'chroma_mean_8': chroma_means[7],
+                'chroma_mean_9': chroma_means[8],
+                'chroma_mean_10': chroma_means[9],
+                'chroma_mean_11': chroma_means[10],
+                'chroma_mean_12': chroma_means[11],
                 'tempo': tempo[0],
                 'contrast_mean_1': contrast_means[0],
                 'contrast_mean_2': contrast_means[1],
+                'contrast_mean_3': contrast_means[2],
+                'contrast_mean_4': contrast_means[3],
+                'contrast_mean_5': contrast_means[4],
+                'contrast_mean_6': contrast_means[5],
+                'contrast_mean_7': contrast_means[6],
                 'tonnetz_mean_1': tonnetz_means[0],
                 'tonnetz_mean_2': tonnetz_means[1],
+                'tonnetz_mean_3': tonnetz_means[2],
+                'tonnetz_mean_4': tonnetz_means[3],
+                'tonnetz_mean_5': tonnetz_means[4],
+                'tonnetz_mean_6': tonnetz_means[5],
                 'flatness_mean': flatness_mean
             }
 
@@ -125,7 +158,21 @@ class DataLoader:
                     print(f"Error loading {file_name}: {e}")
 
         return pd.DataFrame(feature_array)
-    
+
+def visualize_feature(feature, df):
+    avg_value = df.groupby('genre')[feature].mean().reset_index()
+
+    plt.figure(figsize=(5, 5))
+    plt.scatter(avg_value['genre'], avg_value[feature], color='red', s=50)
+    for idx, row in avg_value.iterrows():
+        plt.text(row['genre'], row[feature] + 0.02 * row[feature], f"{row['genre']}", ha='center', fontsize=9)
+
+    plt.xlabel('Genre')
+    plt.xticks(ticks=[])
+    plt.ylabel(f'Avg {feature}')
+    plt.yticks(ticks=[])
+    plt.title(f'Avg {feature} by Genre')
+    plt.show()
 
 class KMeansClustering:
     def __init__(self, unlabeled_data, unlabled_df):
@@ -154,7 +201,7 @@ class KMeansClustering:
     
     def create_submission(self):
         submission = self.unlabeled_df[['filename', 'genre']]
-        submission.to_csv(f'submission_{datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")}.csv', index=False)
+        submission.to_csv(f'Datasets/submission_{datetime.datetime.now().strftime("%Y-%m-%d_%H%M%S")}.csv', index=False)
     
     def _plot_elbow(self, k_range, inertia):
         plt.figure(figsize=(10, 5))
@@ -183,8 +230,11 @@ class PostClusteringVisualizations:
             ax = axes[i]
             genre_df = self.labeled_df[self.labeled_df['genre'] == genre]
             
-            sns.scatterplot(data=genre_df, x=col1, y=col2, color='red', ax=ax)
+            sns.scatterplot(data=genre_df, x=col1, y=col2, color='red', ax=ax, label=f'Genre: {genre}')
             sns.scatterplot(data=self.clustered_df, x=col1, y=col2, hue='cluster', palette='viridis', marker='o', ax=ax)
+            
+            red_patch = mpatches.Patch(color='red', label=f'Genre: {genre}')
+            handles, lables = ax.get_legend_handles_labels()
             
             ax.set_title(genre)
             
@@ -195,4 +245,46 @@ class PostClusteringVisualizations:
         plt.tight_layout(rect=[0, 0, 1, 0.99])
         plt.show()
         
+class PCAReduction:
+    def __init__(self, df):
+        self.df = df
         
+    def find_n(self):
+        self.pca = PCA()
+        self.pca.fit(self.df)
+        
+        self.explained_variance = self.pca.explained_variance_ratio_
+        self.features = range(self.pca.n_components_)
+        
+        self._plot_variance()
+        
+    def reduction(self, n):
+        self.pca = PCA(n_components=n)
+        self.df_reduced = self.pca.fit_transform(self.df)
+        
+        return self.df_reduced
+    
+    def reduce_labeled(self, labeled_df):
+        self.labeled_df = labeled_df
+        self.df_reduced_labeled = self.pca.transform(self.labeled_df)
+        
+        return self.df_reduced_labeled
+    
+    def _plot_variance(self):
+        plt.figure(figsize=(10,6))
+        plt.bar(self.features, self.explained_variance)
+        plt.xlabel('PCA components')
+        plt.ylabel('Variance')
+        plt.xticks(self.features)
+        plt.show()
+        
+class NMFReduction:
+    def __init__(self, data):
+        self.data = data
+        self.nmf = NMF(n_components=3)
+        
+    def reduction(self):
+        return pd.DataFrame(normalize(pd.DataFrame(self.nmf.fit_transform(self.data))))
+    
+    def reduce_labeled(self, labeled_data):
+        return pd.DataFrame(normalize(pd.DataFrame(self.nmf.transform(labeled_data))))
