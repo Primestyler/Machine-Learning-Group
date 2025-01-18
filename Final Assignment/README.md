@@ -1,3 +1,14 @@
+Tutorial for using the app:
+1. Open terminal and use the `cd` command to navigate to the folder where the app.py file is stored
+2. Run the following command and enjoy! 
+```terminal
+streamlit run app.py
+```
+
+
+
+
+
 | Run | Model | Clusters | Features added | Features remoeved | Kaggle score | 
 | - | - | - | - | - | - |
 | 1 | KMeans | 3 | | | 0.94339 |
