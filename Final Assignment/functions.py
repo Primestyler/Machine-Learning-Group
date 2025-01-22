@@ -174,6 +174,25 @@ def visualize_feature(feature, df):
     plt.title(f'Avg {feature} by Genre')
     plt.show()
 
+def visualize_feature_multiline(df,feature_prefix, num_sub_features, x_col='genre', x_label='Genre', y_label='Feature Value', title='Feature Plot',figsize=(10, 6)):
+    
+    plt.figure(figsize=figsize)
+
+    x_values = df[x_col].unique()
+    for i in range(num_sub_features):
+        col_name = f"{feature_prefix}{i+1}"
+        avg_values = df.groupby(x_col)[col_name].mean().reindex(x_values)
+        plt.plot(x_values, avg_values, marker='o', label=col_name)
+
+    plt.xlabel(x_label)
+    plt.ylabel(y_label)
+    plt.title(title)
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
 class KMeansClustering:
     def __init__(self, unlabeled_data, unlabled_df):
         self.unlabeled_data = unlabeled_data
