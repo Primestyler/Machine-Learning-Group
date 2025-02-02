@@ -1,4 +1,7 @@
 Tutorial for using the app:
+
+Pre-requisit: the folder with unlabeled data needs to be in the same folder. The folder structure needs to be "Datasets/unlabeled"
+
 1. Open terminal and use the `cd` command to navigate to the folder where the app.py file is stored
 2. Run the following command and enjoy! 
 ```terminal
